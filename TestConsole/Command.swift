@@ -32,7 +32,23 @@ public struct CLI {
     
     /// Run the CLI with the specified input arguments
     public static func run(in directory: String, with args: [String] = CommandLine.arguments) -> ExitCode {
-        return processArguments(args, in: directory)
+//        var g = args
+//        g.append(readLine()!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+        print("Please Choose AES :", .info)
+        print("1. Encrypt", .info)
+        print("2. Decrypt", .info)
+        let index = readLine()!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        switch Int(index) {
+        case 1:
+            print("Please Input JSON Strings",.info)
+            print("data = \(aesEnCrypt(readLine()!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)))", .content)
+        case 2:
+            print("Please Input AES Strings",.info)
+            print("json = \(aesDeCrypt(readLine()!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)))", .content)
+        default:
+            break
+        }
+        return .ok
     }
     
     /// Run the CLI with the specified input string (this will be parsed into multiple arguments)
@@ -65,4 +81,16 @@ func processArguments(_ args: [String], in directory: String) -> ExitCode {
 
 func parseArguments(_ argumentString: String, ignoreComments: Bool = true) -> [String] {
     return []
+}
+
+func aesDeCrypt(_ str: String) -> String {
+    var tmp = str
+    tmp = IUMEncryptor.decryptDES(str)
+    return tmp
+}
+
+func aesEnCrypt(_ str: String) -> String {
+    var tmp = str
+    tmp = IUMEncryptor.encryptDES(str)
+    return tmp
 }
